@@ -5,7 +5,7 @@ python run.py \
 	--do_test \
 	--model_name_or_path distilroberta-base \
 	--train_filename /kaggle/input/c-dataset/train.csv \
-	--dev_filename /kaggle/input/c-dataset/test.csv \
+	--test_filename /kaggle/input/c-dataset/test.csv \
 	--output_dir saved_models/C# \
 	--max_source_length 512 \
 	--max_target_length 64 \
