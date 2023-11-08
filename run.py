@@ -25,7 +25,7 @@ import sys
 import bleu
 import pickle
 import torch
-import json
+import csv
 import random
 import logging
 import argparse
@@ -59,23 +59,23 @@ class Example(object):
 
 def read_examples(filename):
     """Read examples from filename."""
-    examples=[]
-    with open(filename,encoding="utf-8") as f:
-        for idx, line in enumerate(f):
-            line=line.strip()
-            js=json.loads(line)
-            if 'idx' not in js:
-                js['idx']=idx
-            code=' '.join(js['code_tokens']).replace('\n',' ')
-            code=' '.join(code.strip().split())
-            nl=' '.join(js['docstring_tokens']).replace('\n','')
-            nl=' '.join(nl.strip().split())            
+    examples = []
+            
+    with open(filename, 'r', encoding='utf-8') as csvfile:
+        csvreader = csv.DictReader(csvfile)
+        
+        for idx, row in enumerate(csvreader):
+            code = row['code'].strip()
+            des = row['body'].strip()
+            source = des + ' <csharp> '+ code
+            nl = row['title'].strip()
+
             examples.append(
                 Example(
-                        idx = idx,
-                        source=code,
-                        target = nl,
-                        ) 
+                    idx=idx,
+                    source=code,
+                    target=nl,
+                )
             )
     return examples
 
